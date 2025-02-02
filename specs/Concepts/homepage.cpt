@@ -1,0 +1,8 @@
+# Verify that open money transfer button is visible
+* Verify that "OPEN_MONEY_TRANSFER_BUTTON" is visible
+
+# Click logout button on home page
+* Click logout button
+
+# Click open money transfer button on homepage
+* Click "OPEN_MONEY_TRANSFER_BUTTON"

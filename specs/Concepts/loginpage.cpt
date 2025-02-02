@@ -1,0 +1,21 @@
+# Click login button on login page
+* Click "LOGIN_BUTTON"
+
+# Fill the username input area with the e-mail address
+* Enter "mucahit.koca@testinium.com" into "USERNAME_INPUT"
+
+# Fill the username input area with a wrong e-mail address
+* Enter "selami.koca@testinium.com" into "USERNAME_INPUT"
+
+# Fill the password input area with the correct password
+* Enter "1693Ayazma" into "PASSWORD_INPUT"
+
+# Fill the password input area with a wrong password
+* Enter "1234567" into "PASSWORD_INPUT"
+
+# Verify that catchylabs login page is open
+* Check if the URL is "https://catchylabs-webclient.testinium.com/"
+
+# Verify that an error message is displayed after entering wrong credentials
+* Verify that "INVALID_CREDENTIALS" is visible
+
