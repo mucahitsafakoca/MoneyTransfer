@@ -8,7 +8,7 @@
 * Enter "selami.koca@testinium.com" into "USERNAME_INPUT"
 
 # Fill the password input area with the correct password
-* Enter "1693Ayazma" into "PASSWORD_INPUT"
+* Enter "1234Test" into "PASSWORD_INPUT"
 
 # Fill the password input area with a wrong password
 * Enter "1234567" into "PASSWORD_INPUT"
