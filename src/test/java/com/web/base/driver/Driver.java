@@ -7,6 +7,7 @@ import com.thoughtworks.gauge.BeforeSuite;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.ByteArrayInputStream;
@@ -19,7 +20,7 @@ public class Driver {
 
     @BeforeScenario
     public void initializeDriver() {
-        webDriver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless=new"); // Headless mod
         options.addArguments("--no-sandbox"); // Sandbox engelini kaldırır
         options.addArguments("--disable-dev-shm-usage"); // CI ortamlarında memory sorunu için
@@ -27,6 +28,7 @@ public class Driver {
         options.addArguments("--window-size=1920,1080"); // Ekran boyutu
         options.addArguments("--remote-allow-origins=*"); // Chrome 111+ için gerekli olabilir
 
+        webDriver = new ChromeDriver();
         webDriverWait = new WebDriverWait(webDriver, Duration.ofSeconds(30));
         webDriverWait.withTimeout(Duration.ofSeconds(30))
                 .pollingEvery(Duration.ofMillis(500))
