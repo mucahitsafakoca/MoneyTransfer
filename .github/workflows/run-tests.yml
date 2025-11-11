@@ -1,7 +1,7 @@
 name: Run Gauge UI Tests
 
 on:
-  workflow_dispatch: # Manuel başlatma butonu
+  workflow_dispatch:
   push:
     branches: [ main ]
 
@@ -19,24 +19,31 @@ jobs:
           distribution: 'temurin'
           java-version: '23'
 
-      - name: Setup Chrome
+      - name: Install Google Chrome
         run: |
           sudo apt-get update
-          sudo apt-get install -y google-chrome-stable unzip
+          sudo apt-get install -y google-chrome-stable
 
-      - name: Install Chrome & ChromeDriver
+      - name: Install ChromeDriver compatible with Chrome
         run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable unzip
-          wget -N https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
+          # Chrome versiyonunu al
+          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+' | head -1)
+          echo "Detected Chrome version: $CHROME_VERSION"
+
+          # Uyumlu ChromeDriver versiyonu
+          DRIVER_VERSION=$(curl -sS "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
+          if [ -z "$DRIVER_VERSION" ]; then
+            echo "Compatible ChromeDriver not found, using latest stable"
+            DRIVER_VERSION=$(curl -sS "https://chromedriver.storage.googleapis.com/LATEST_RELEASE")
+          fi
+          echo "ChromeDriver version to download: $DRIVER_VERSION"
+
+          wget -N "https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip"
           unzip chromedriver_linux64.zip
           sudo mv chromedriver /usr/local/bin/
-          chmod +x /usr/local/bin/chromedriver
-          google-chrome --version
-          chromedriver --version
+          chmod +x /usr/local/bin/
 
-
-      - name: Install Gauge (latest stable)
+      - name: Install Gauge
         run: |
           curl -SsL https://downloads.gauge.org/stable | sudo sh
           gauge -v
@@ -57,10 +64,7 @@ jobs:
 
       - name: Show Gauge summary
         run: |
-          if [ -f logs/gauge.log ]; then
-            echo "✅ Passed Scenarios:"
-            grep -o "passed: [0-9]*" logs/gauge.log
-            echo "❌ Failed Scenarios:"
-            grep -o "failed: [0-9]*" logs/gauge.log
-          else
-            echo "No Gauge log found"
+          echo "✅ Passed Scenarios:"
+          grep -o "passed: [0-9]*" logs/gauge.log || echo "No log found"
+          echo "❌ Failed Scenarios:"
+          grep -o "failed: [0-9]*" logs/gauge.log || echo "No log found"
