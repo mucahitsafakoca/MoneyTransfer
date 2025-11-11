@@ -22,13 +22,14 @@ public class Driver {
     public void initializeDriver() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless=new"); // Headless mod
-        options.addArguments("--no-sandbox"); // Sandbox engelini kaldırır
-        options.addArguments("--disable-dev-shm-usage"); // CI ortamlarında memory sorunu için
-        options.addArguments("--disable-gpu"); // GPU devre dışı
-        options.addArguments("--window-size=1920,1080"); // Ekran boyutu
-        options.addArguments("--remote-allow-origins=*"); // Chrome 111+ için gerekli olabilir
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--window-size=1920,1080");
+        options.addArguments("--remote-allow-origins=*"); // Selenium 4.17 için
 
         webDriver = new ChromeDriver(options);
+
         webDriverWait = new WebDriverWait(webDriver, Duration.ofSeconds(30));
         webDriverWait.withTimeout(Duration.ofSeconds(30))
                 .pollingEvery(Duration.ofMillis(500))
