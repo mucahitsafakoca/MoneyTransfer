@@ -19,31 +19,23 @@ jobs:
           distribution: 'temurin'
           java-version: '23'
 
-      - name: Install Google Chrome
+      - name: Install specific Chrome version (114)
         run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
+          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.90-1_amd64.deb
+          sudo dpkg -i google-chrome-stable_114.0.5735.90-1_amd64.deb || sudo apt-get -f install -y
+          google-chrome --version
 
-      - name: Install ChromeDriver compatible with Chrome
+      - name: Install matching ChromeDriver
         run: |
-          # Chrome versiyonunu al
-          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+' | head -1)
-          echo "Detected Chrome version: $CHROME_VERSION"
-
-          # Uyumlu ChromeDriver versiyonu
-          DRIVER_VERSION=$(curl -sS "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
-          if [ -z "$DRIVER_VERSION" ]; then
-            echo "Compatible ChromeDriver not found, using latest stable"
-            DRIVER_VERSION=$(curl -sS "https://chromedriver.storage.googleapis.com/LATEST_RELEASE")
-          fi
-          echo "ChromeDriver version to download: $DRIVER_VERSION"
-
+          DRIVER_VERSION=$(curl -sS "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_114")
+          echo "Using ChromeDriver version: $DRIVER_VERSION"
           wget -N "https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip"
           unzip chromedriver_linux64.zip
           sudo mv chromedriver /usr/local/bin/
           chmod +x /usr/local/bin/
+          chromedriver --version
 
-      - name: Install Gauge
+      - name: Install Gauge (latest stable)
         run: |
           curl -SsL https://downloads.gauge.org/stable | sudo sh
           gauge -v
