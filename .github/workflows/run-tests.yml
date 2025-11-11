@@ -24,18 +24,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
 
-      - name: Install compatible ChromeDriver
+      - name: Install ChromeDriver
         run: |
-          # Chrome sürümünü al
-          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+' | head -1)
+          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+' | head -1)
           echo "Detected Chrome version: $CHROME_VERSION"
-
-          # ChromeDriver sürümü (major versiyon + uyumlu minör sürüm)
           DRIVER_VERSION="142.0.7444.61"
           echo "Using ChromeDriver version: $DRIVER_VERSION"
-
-          wget -N "https://storage.googleapis.com/chrome-for-testing-public/142.0.7444.61/linux64/chromedriver‑linux64.zip"
-          unzip chromedriver‑linux64.zip
+          wget -N "https://storage.googleapis.com/chrome-for-testing-public/${DRIVER_VERSION}/linux64/chromedriver-linux64.zip"
+          unzip chromedriver-linux64.zip
           sudo mv chromedriver /usr/local/bin/
           chmod +x /usr/local/bin/chromedriver
 
