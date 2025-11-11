@@ -20,6 +20,13 @@ public class Driver {
     @BeforeScenario
     public void initializeDriver() {
         webDriver = new ChromeDriver();
+        options.addArguments("--headless=new"); // Headless mod
+        options.addArguments("--no-sandbox"); // Sandbox engelini kaldırır
+        options.addArguments("--disable-dev-shm-usage"); // CI ortamlarında memory sorunu için
+        options.addArguments("--disable-gpu"); // GPU devre dışı
+        options.addArguments("--window-size=1920,1080"); // Ekran boyutu
+        options.addArguments("--remote-allow-origins=*"); // Chrome 111+ için gerekli olabilir
+
         webDriverWait = new WebDriverWait(webDriver, Duration.ofSeconds(30));
         webDriverWait.withTimeout(Duration.ofSeconds(30))
                 .pollingEvery(Duration.ofMillis(500))
