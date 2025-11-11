@@ -28,7 +28,7 @@ public class Driver {
         options.addArguments("--window-size=1920,1080"); // Ekran boyutu
         options.addArguments("--remote-allow-origins=*"); // Chrome 111+ için gerekli olabilir
 
-        webDriver = new ChromeDriver();
+        webDriver = new ChromeDriver(options);
         webDriverWait = new WebDriverWait(webDriver, Duration.ofSeconds(30));
         webDriverWait.withTimeout(Duration.ofSeconds(30))
                 .pollingEvery(Duration.ofMillis(500))
