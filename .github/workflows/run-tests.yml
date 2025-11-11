@@ -19,14 +19,9 @@ jobs:
           distribution: 'temurin'
           java-version: '23'
 
-      - name: Install Gauge
+      - name: Install Gauge (latest stable)
         run: |
-          GAUGE_VERSION="0.11.1"
-          wget -O gauge.zip https://github.com/getgauge/gauge/releases/download/v${GAUGE_VERSION}/gauge-${GAUGE_VERSION}-linux.x86_64.zip
-          sudo apt-get update -y
-          sudo apt-get install -y unzip
-          unzip gauge.zip -d gauge
-          sudo mv gauge/gauge /usr/local/bin/
+          curl -SsL https://downloads.gauge.org/stable | sudo sh
           gauge -v
 
       - name: Cache Maven packages
